@@ -1,0 +1,4 @@
+(copy_files implementations/*)
+
+(library
+ (name mersenne))

@@ -1,8 +1,8 @@
 test:
-	jbuilder build test/test.exe
-	jbuilder exec test/test.exe
+	dune build test/test.exe
+	dune exec test/test.exe
 
 clean:
-	jbuilder clean
+	dune clean
 
 .PHONY: test clean

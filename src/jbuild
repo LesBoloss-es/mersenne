@@ -1,7 +1,0 @@
-(copy_files implementations/*)
-
-
-(library
- ((name mersenne)
-  (modules_without_implementation (interface))
-  ))
