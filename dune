@@ -1,0 +1,4 @@
+(env
+ (profiling
+  (ocamlopt_flags (:standard -O3 -p -ccopt -no-pie)))
+)

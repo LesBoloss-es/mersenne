@@ -2,3 +2,5 @@ _build
 .merlin
 *.native
 *.byte
+*.txt
+*.out
