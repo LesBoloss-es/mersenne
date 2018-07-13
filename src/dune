@@ -1,4 +1,6 @@
 (copy_files implementations/*)
+(copy_files functors/*)
 
 (library
- (name mersenne))
+ (name mersenne)
+ (libraries hamt))
