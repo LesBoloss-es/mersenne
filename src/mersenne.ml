@@ -7,6 +7,7 @@ module type SINT63 = Interface.STATE with type raw := int
 
 module Int63Hamt : SINT63 = Int63Hamt
 module Int63Map : SINT63 = Int63Map
+module Int63Array : SINT63 = Int63Array
 
 
 (** Functors *)

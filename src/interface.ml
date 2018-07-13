@@ -3,7 +3,7 @@ module type STATE = sig
   type t
 
   val init : int -> t
-  val full_init : int list -> t
+  val full_init : int array -> t
 
   val bits : t -> t * raw
   val float1 : t -> t * float
@@ -13,7 +13,7 @@ module type MT = sig
   type state
 
   val init : int -> state
-  val full_init : int list -> state
+  val full_init : int array -> state
 
   val int : int -> state -> state * int
   val int32 : int32 -> state -> state * int32

@@ -78,26 +78,22 @@ let init =
     next_state { array ; cursor = -1 }
 
 
-let uncons = function
-  | x :: xs -> x, xs
-  | [] -> assert false
-
 let full_init seeds =
-  let length = List.length seeds in
-  let rec init1 i j k keys state =
+  let length = Array.length seeds in
+  let rec init1 i j k state =
     if k = 0 then i, state
     else
-      let key, keys = uncons keys in
       let u = get i state in
       let v = get (i - 1) state in
+      let key = seeds.(j) in
       let state =
         let w = (u lxor ((v lxor (v lsr 30)) * 1664525)) + key + j in
         let w = w land 0xFFFFFFFF in
         set i w state
       in
       let i, state = if i + 1 >= n then 1, set 0 (get (n - 1) state) state else i + 1, state in
-      let j, keys = if j + 1 >= length then 0, seeds else j + 1, keys in
-      init1 i j (k - 1) keys state
+      let j = if j + 1 >= length then 0 else j + 1 in
+      init1 i j (k - 1) state
   in
   let rec init2 k (i, state) =
     if k = 0 then state
@@ -113,10 +109,8 @@ let full_init seeds =
       init2 (k - 1) (i, state)
   in
   let k = max length n in
-  let array = (init 19650218).array |> init1 1 0 k seeds |> init2 (n - 1) in
+  let array = (init 19650218).array |> init1 1 0 k |> init2 (n - 1) in
   next_state { array  ; cursor = -1 }
-
-
 
 
 
