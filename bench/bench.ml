@@ -1,7 +1,8 @@
 open Mersenne
 
 
-module MT = FInt63(Int63Hamt)
+module MTH = FInt63(Int63Hamt)
+module MTM = FInt63(Int63Map)
 
 
 let rec randfoldnat fop dice init state = function
@@ -25,14 +26,23 @@ let () =
   let dt = Sys.time () -. t0 in
   Format.printf "OCaml / integers : avg = %f ; exec time = %f@." average dt
 
-(*** MT / integers ***)
+(*** MTH / integers ***)
 let () =
-  let state = MT.full_init [0x123; 0x234; 0x345; 0x456] in
-  let randsum = randfoldnat ( + ) (MT.int bound) 0 in
+  let state = MTH.full_init [0x123; 0x234; 0x345; 0x456] in
+  let randsum = randfoldnat ( + ) (MTH.int bound) 0 in
   let t0 = Sys.time () in
   let average = (randsum state n |> float_of_int) /. (float_of_int n) in
   let dt = Sys.time () -. t0 in
-  Format.printf "  MT  / integers : avg = %f ; exec time = %f@." average dt
+  Format.printf " Hamt / integers : avg = %f ; exec time = %f@." average dt
+
+(*** MTM / integers ***)
+let () =
+  let state = MTM.full_init [0x123; 0x234; 0x345; 0x456] in
+  let randsum = randfoldnat ( + ) (MTM.int bound) 0 in
+  let t0 = Sys.time () in
+  let average = (randsum state n |> float_of_int) /. (float_of_int n) in
+  let dt = Sys.time () -. t0 in
+  Format.printf " Map  / integers : avg = %f ; exec time = %f@." average dt
 
 (*** OCaml's random library / floats ***)
 let () =
@@ -43,11 +53,20 @@ let () =
   let dt = Sys.time () -. t0 in
   Format.printf "OCaml /  floats  : avg = %f ; exec time = %f@." average dt
 
-(*** MT / floats ***)
+(*** MTH / floats ***)
 let () =
-  let state = MT.full_init [0x123; 0x234; 0x345; 0x456] in
-  let randsum = randfoldnat ( +. ) (MT.float fbound) 0. in
+  let state = MTH.full_init [0x123; 0x234; 0x345; 0x456] in
+  let randsum = randfoldnat ( +. ) (MTH.float fbound) 0. in
   let t0 = Sys.time () in
   let average = (randsum state n) /. (float_of_int n) in
   let dt = Sys.time () -. t0 in
-  Format.printf "  MT  /  floats  : avg = %f ; exec time = %f@." average dt
+  Format.printf " Hamt /  floats  : avg = %f ; exec time = %f@." average dt
+
+(*** MTM / floats ***)
+let () =
+  let state = MTM.full_init [0x123; 0x234; 0x345; 0x456] in
+  let randsum = randfoldnat ( +. ) (MTM.float fbound) 0. in
+  let t0 = Sys.time () in
+  let average = (randsum state n) /. (float_of_int n) in
+  let dt = Sys.time () -. t0 in
+  Format.printf " Map  /  floats  : avg = %f ; exec time = %f@." average dt

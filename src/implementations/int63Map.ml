@@ -1,5 +1,11 @@
+module Int = struct
+  type t = int
+  let compare i j = i - j
+end
+module Imap = Map.Make(Int)
+
 type raw = int
-type t = {array : int Hamt.Int.t ; cursor : int}
+type t = {array : int Imap.t ; cursor : int}
 
 
 let () =
@@ -12,8 +18,8 @@ let n = 624
 let m = 397
 
 
-let set = Hamt.Int.add
-let get = Hamt.Int.find_exn
+let set = Imap.add
+let get = Imap.find
 
 
 let twist =
@@ -67,7 +73,7 @@ let init =
   in
   fun seed ->
     let seed = seed land 0xFFFFFFFF in
-    let array = Hamt.Int.singleton 0 seed in
+    let array = Imap.singleton 0 seed in
     let array = init seed array (n - 1) in
     next_state { array ; cursor = -1 }
 
